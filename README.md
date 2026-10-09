@@ -214,4 +214,29 @@ sudo systemctl restart wms
 rm -f /opt/wms/app.db* && sudo systemctl restart wms
 ```
 
+### 七、内网环境推送代码（可选）
+
+若部署环境无法直连 `github.com:443`（`git push` 超时），可用 `deploy/push_via_api.py` 通过 GitHub Git Data API 推送（走 `gh` CLI 的可用通道）：
+
+```bash
+# 前置：gh 已登录
+echo "<token>" | gh auth login --with-token
+
+# 推送当前目录
+python3 deploy/push_via_api.py --repo <owner>/<name>
+
+# 首次推送 / 重建历史
+python3 deploy/push_via_api.py --repo <owner>/<name> --force
+
+# 仓库不存在时自动创建（私有）
+python3 deploy/push_via_api.py --repo <owner>/<name> --create
+```
+
+脚本特性：
+- **合并保护**：默认先拉取远端已有文件并与本地合并，仅覆盖同名文件、保留远端独有文件，避免"全量覆盖"误删
+- **自动重试**：网络抖动导致的 5xx 失败自动重试
+- **遵循 .gitignore**：基于 `git ls-files`，只推送受跟踪的文件
+
+> ⚠️ **GitHub 平台限制**：`.github/workflows/` 目录**无法**通过 API 写入（会返回 404），这是 GitHub 防止 API 静默注入 CI 流水线的安全设计，Personal Access Token 即使带 `repo` 权限也不行。脚本会自动跳过该目录并提示 —— 这类文件请在 GitHub 网页上手动添加。
+
 > ⚠️ **容量说明**：本系统为单进程 SQLite 架构，适合单机部署、并发几十人以内的企业内部场景。若需高并发或多实例横向扩展，需改用 PostgreSQL/MySQL 并引入外部会话存储（主要改动点为 `db.py` 与 `security.py`）。
