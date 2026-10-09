@@ -20,6 +20,14 @@
   - gh CLI 已登录：echo "<token>" | gh auth login --with-token
   - Token 需要 repo 权限
 
+重要限制（GitHub 平台约束）：
+  .github/workflows/ 目录**无法**通过 API 写入，即使 Token 有 repo 权限，
+  也会返回 404（这是 GitHub 的安全设计，防止 API 静默注入 CI 流水线）。
+  写入 workflow 文件需 OAuth Token 带 workflow scope，且仅限 OAuth App，
+  Personal Access Token (classic/fine-grained) 均不支持。
+  → 本脚本会自动跳过 .github/workflows/ 下的文件并给出提示；
+    这类文件请通过 git push 或在 GitHub 网页上手动添加。
+
 用法：
   # 推送当前目录（自动识别 git 跟踪的文件）
   python3 deploy/push_via_api.py --repo <owner>/<name>
@@ -79,13 +87,25 @@ def gh_ok(method, path, data=None):
 
 
 def list_files():
-    """列出 git 跟踪的文件（自动遵循 .gitignore）。"""
+    """列出 git 跟踪的文件（自动遵循 .gitignore）。
+
+    自动排除 .github/workflows/ 下的文件：GitHub 禁止通过 API 写入该目录，
+    否则整个 tree 请求会返回 404。这类文件请用 git push 或网页手动添加。
+    """
     r = subprocess.run(["git", "ls-files"], capture_output=True, text=True, check=True)
-    files = [f for f in r.stdout.splitlines() if f.strip()]
-    if not files:
+    allf = [f for f in r.stdout.splitlines() if f.strip()]
+    if not allf:
         print("!! 没有可提交的文件（git ls-files 为空）。请先 git add。", file=sys.stderr)
         sys.exit(1)
-    return files
+
+    skipped = [f for f in allf if f.startswith(".github/workflows/")]
+    if skipped:
+        print(f"⚠ 跳过 {len(skipped)} 个 workflow 文件（GitHub 禁止 API 写入该目录）：")
+        for f in skipped:
+            print(f"    - {f}")
+        print("  如需 CI 配置，请在 GitHub 网页上手动添加，或用 git push 推送。\n")
+
+    return [f for f in allf if not f.startswith(".github/workflows/")]
 
 
 def fetch_remote_tree(repo, branch):
