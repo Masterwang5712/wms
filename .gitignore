@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# 数据库（运行时生成，不入库）
+*.db
+*.db-wal
+*.db-shm
+
+# 打包产物
+*.zip
+
+# 环境与密钥
+.env
+.env.*
+*.pem
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 工具内部目录
+.codebuddy/

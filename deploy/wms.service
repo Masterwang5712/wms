@@ -1,0 +1,42 @@
+[Unit]
+Description=耗材与设备管理仓库系统 (WMS)
+Documentation=file:///opt/wms/README.md
+After=network.target
+
+[Service]
+Type=simple
+# 按实际部署用户修改（建议使用专用低权限账号，而非 root）
+User=www-data
+Group=www-data
+
+# 按实际部署路径修改
+WorkingDirectory=/opt/wms
+
+Environment="HOST=127.0.0.1"
+Environment="PORT=8000"
+Environment="WMS_DB=/opt/wms/app.db"
+# 校准临期提醒天数
+Environment="CALIBRATION_WARN_DAYS=30"
+# 登录有效期（小时）
+Environment="TOKEN_TTL_HOURS=24"
+
+# 使用虚拟环境中的 python；若为全局安装则改为 python3
+ExecStart=/opt/wms/venv/bin/python3 -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+
+# 崩溃自动重启
+Restart=always
+RestartSec=3
+
+# 日志重定向到 journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wms
+
+# 基础安全加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

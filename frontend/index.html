@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>耗材与设备管理仓库系统</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <!-- 登录页 -->
+  <div id="login-screen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="login-brand">
+        <svg viewBox="0 0 48 48" width="46" height="46" aria-hidden="true">
+          <rect x="4" y="14" width="40" height="28" rx="4" fill="var(--primary)"/>
+          <path d="M4 14 L24 4 L44 14 Z" fill="var(--primary-d)" opacity=".75"/>
+          <rect x="18" y="24" width="12" height="18" rx="2" fill="#fff" opacity=".9"/>
+          <circle cx="24" cy="33" r="2.4" fill="var(--primary)"/>
+        </svg>
+        <div>
+          <h1>耗材与设备管理仓库系统</h1>
+          <p>Consumables &amp; Equipment Warehouse Management</p>
+        </div>
+      </div>
+
+      <form id="login-form" class="login-form" autocomplete="off">
+        <label class="field">
+          <span>用户名</span>
+          <input type="text" name="username" id="login-username" placeholder="请输入用户名" required>
+        </label>
+        <label class="field">
+          <span>密码</span>
+          <input type="password" name="password" id="login-password" placeholder="请输入密码" required>
+        </label>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">登 录</button>
+        <p class="login-error" id="login-error"></p>
+      </form>
+
+      <div class="login-demo">
+        <p class="demo-title">演示账号（点击自动填充）</p>
+        <div class="demo-accounts">
+          <button type="button" class="demo-account" data-user="admin" data-pass="admin123">
+            <strong>admin</strong><span>系统管理员 · 全权限</span>
+          </button>
+          <button type="button" class="demo-account" data-user="keeper" data-pass="keeper123">
+            <strong>keeper</strong><span>仓库管理员 · 出入库/设备</span>
+          </button>
+          <button type="button" class="demo-account" data-user="user" data-pass="user123">
+            <strong>user</strong><span>普通用户 · 领用/查看</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主应用 -->
+  <div id="app" class="app-layout hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
+          <rect x="4" y="14" width="40" height="28" rx="4" fill="var(--primary)"/>
+          <path d="M4 14 L24 4 L44 14 Z" fill="var(--primary-d)" opacity=".75"/>
+          <rect x="18" y="24" width="12" height="18" rx="2" fill="#fff" opacity=".9"/>
+          <circle cx="24" cy="33" r="2.4" fill="var(--primary)"/>
+        </svg>
+        <div class="brand-text">
+          <strong>仓库管理系统</strong>
+          <small>WMS v1.0</small>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <div class="sidebar-footer">
+        <div class="alert-badges" id="sidebar-alerts"></div>
+        <p class="copyright">© 2026 内部系统</p>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-toggle" id="menu-toggle" title="折叠菜单" aria-label="折叠菜单">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        </button>
+        <div class="topbar-title">
+          <h2 id="page-title">数据看板</h2>
+          <p id="page-subtitle">仓库运营总览</p>
+        </div>
+        <div class="topbar-right">
+          <span class="clock" id="clock"></span>
+          <div class="user-chip" id="user-chip">
+            <div class="avatar" id="user-avatar">A</div>
+            <div class="user-meta">
+              <strong id="user-name">—</strong>
+              <small id="user-role">—</small>
+            </div>
+            <button class="icon-btn" id="logout-btn" title="退出登录" aria-label="退出登录">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+
+  <!-- 抽屉 / 弹窗 / 提示容器 -->
+  <div id="drawer-root"></div>
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-root"></div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# 版本控制与本地数据不入镜像
+.git
+.gitignore
+.codebuddy
+**/__pycache__
+**/*.pyc
+*.db
+*.db-wal
+*.db-shm
+venv
+.env
+deploy/
+README.md

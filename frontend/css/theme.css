@@ -1,0 +1,70 @@
+:root {
+  /* 品牌色 */
+  --primary: #2f6fed;
+  --primary-d: #1e50b8;
+  --primary-l: #eaf1ff;
+  --primary-l2: #f5f8ff;
+
+  /* 语义色：遵循国内习惯——涨/增/正 用红，跌/减/负 用绿 */
+  --up: #e53935;
+  --up-l: #fdeaea;
+  --down: #43a047;
+  --down-l: #e9f6ea;
+
+  --warning: #ef8f2f;
+  --warning-l: #fff5e6;
+  --danger: #e53935;
+  --danger-l: #fdeaea;
+  --success: #16a34a;
+  --success-l: #e8f7ee;
+  --info: #0ea5e9;
+  --info-l: #e6f5fd;
+
+  /* 中性色 */
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #fafbfe;
+  --border: #e3e8f0;
+  --border-2: #eef1f7;
+  --text: #1c2431;
+  --text-2: #55617a;
+  --text-3: #8b95ab;
+
+  /* 尺寸 */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --sidebar-w: 232px;
+  --topbar-h: 64px;
+
+  --shadow-sm: 0 1px 2px rgba(20, 32, 60, .06);
+  --shadow: 0 2px 10px rgba(20, 32, 60, .07);
+  --shadow-lg: 0 12px 32px rgba(20, 32, 60, .14);
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC",
+          "Noto Sans CJK SC", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+}
+
+body.dark {
+  --primary-l: #1c2b4d;
+  --primary-l2: #182338;
+  --bg: #111827;
+  --surface: #1a2233;
+  --surface-2: #202a3d;
+  --border: #2c3750;
+  --border-2: #263045;
+  --text: #e8ecf5;
+  --text-2: #a9b4c9;
+  --text-3: #7c879e;
+  --up-l: #3a1f1f;
+  --down-l: #1b3324;
+  --warning-l: #3a2c14;
+  --danger-l: #3a1f1f;
+  --success-l: #14301f;
+  --info-l: #12303f;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+  --shadow: 0 2px 10px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, .5);
+}
